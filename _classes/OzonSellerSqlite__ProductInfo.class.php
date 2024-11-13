@@ -5,7 +5,6 @@ include_once "$HOME/_classes/OzonSeller__ProductInfo.class.php";
 
 class OzonSellerSqlite__ProductInfo {
     private function getConnect() {
-        LoggerInTelegram::log("Connect with pdo");
         return DatabaseConnect::getMysqlPdo();
     }
 
