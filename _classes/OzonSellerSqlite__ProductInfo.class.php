@@ -27,7 +27,7 @@ class OzonSellerSqlite__ProductInfo {
             $pdo->prepare($sql)->execute();
             LoggerInTelegram::logCode($sql);
        
-            echo "<p style='color: green;'>Таблица удалена успешно $tableName</p>";
+            echo "<p style='color: green;'>Таблица удалена успешно $tableName</p>\n";
 
             $sql = "CREATE TABLE $tableName (
                         id INT,
@@ -97,7 +97,7 @@ class OzonSellerSqlite__ProductInfo {
             LoggerInTelegram::logCode($sql);
             $pdo->prepare($sql)->execute();
 
-            echo "<p style='color: green;'>Таблица создана успешно $tableName</p>";
+            echo "<p style='color: green;'>Таблица создана успешно $tableName</p>\n";
 
             $sql = "INSERT INTO
                     $tableName
@@ -165,7 +165,7 @@ class OzonSellerSqlite__ProductInfo {
             $array_values = [];
             $count = 0;
             foreach($products as $el) {
-                $element = $el['result'];
+                $element = $el;
                 
                 $array_values []= $element['id'];
                 $array_values []= $element['name'];
@@ -240,7 +240,7 @@ class OzonSellerSqlite__ProductInfo {
             LoggerInTelegram::logCode($sql);
             $pdo->prepare($sql)->execute($array_values);
 
-            echo "<p style='color: green;'>Таблица заполнена успешно $tableName</p>";
+            echo "<p style='color: green;'>Таблица заполнена успешно $tableName</p>\n";
         }
         catch(Throwable $exception) {
             echo "<p style='color: red;'>Исключение</p>";

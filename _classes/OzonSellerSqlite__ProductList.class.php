@@ -17,7 +17,7 @@ class OzonSellerSqlite__ProductList {
             $pdo = $this->getConnect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-            echo "<p style='color: green;'>Успешное подключение к SQLite</p>";
+            echo "<p style='color: green;'>Успешное подключение к SQLite</p>\n";
 
             $products = $this->getAllProducts();
 
@@ -43,7 +43,7 @@ class OzonSellerSqlite__ProductList {
                     ";
             LoggerInTelegram::logCode($sql);
 
-            echo "<p style='color: green;'>Таблица создана успешно $tableName</p>";
+            echo "<p style='color: green;'>Таблица создана успешно $tableName</p>\n";
 
             $pdo->prepare($sql)->execute();
 
@@ -71,7 +71,7 @@ class OzonSellerSqlite__ProductList {
 
             $pdo->prepare($sql)->execute($array_values);
 
-            echo "<p style='color: green;'>Таблица заполнена успешно $tableName</p>";
+            echo "<p style='color: green;'>Таблица заполнена успешно $tableName</p>\n";
         }
         catch(Throwable $exception) {
             echo "<p style='color: red;'>Исключение</p>";
