@@ -43,6 +43,10 @@ class OzonSeller__FinanceTransactionList {
         return $resultArray;
     }
 
+    public function getAllTransformed() {
+        return $this->transformArray($this->getAll());
+    }
+
     public function fetchJson__getTransactionsOnPeriod($dateFrom, $dateTo) {        
         return $this->fetchJson([
             "filter" => [
@@ -107,5 +111,147 @@ class OzonSeller__FinanceTransactionList {
             $phpObject = json_decode($jsonString, true);
             return $phpObject;
         }
+    }
+
+    private function transformArray($arr) {
+        $result_array = [];
+
+        for ($i = 0; $i < count($arr); $i++) {
+            $element = $arr[$i];
+            $MarketplaceRedistributionOfAcquiringOperation = 0;
+            $MarketplaceServiceItemDropoffPVZ = 0;
+            $MarketplaceServiceItemDirectFlowTrans = 0;
+            $MarketplaceServiceItemDelivToCustomer = 0;
+            $MarketplaceServiceItemDirectFlowLogistic = 0;
+            $MarketplaceServiceItemReturnAfterDelivToCustomer = 0;
+            $MarketplaceServiceItemReturnFlowTrans = 0;
+            $MarketplaceServiceItemReturnFlowLogistic = 0;
+            $MarketplaceServiceItemRedistributionReturnsPVZ = 0;
+            $MarketplaceServiceItemReturnNotDelivToCustomer = 0;
+            $MarketplaceServiceItemReturnPartGoodsCustomer = 0;
+
+            $services = $element['services'];
+            $services_length = count($services);
+
+            for ($j = 0; $j < $services_length; $j++) {
+                if (strcmp($services[$j]['name'], 'MarketplaceRedistributionOfAcquiringOperation') == 0) {
+                    $MarketplaceRedistributionOfAcquiringOperation = $services[$j]['price'];
+                    break;
+                }
+            }
+
+            for ($j = 0; $j < $services_length; $j++) {
+                if (strcmp($services[$j]['name'], 'MarketplaceServiceItemDropoffPVZ') == 0) {
+                    $MarketplaceServiceItemDropoffPVZ = $services[$j]['price'];
+                    break;
+                }
+            }
+
+            for ($j = 0; $j < $services_length; $j++) {
+                if (strcmp($services[$j]['name'], 'MarketplaceServiceItemDirectFlowTrans') == 0) {
+                    $MarketplaceServiceItemDirectFlowTrans = $services[$j]['price'];
+                    break;
+                }
+            }
+
+            for ($j = 0; $j < $services_length; $j++) {
+                if (strcmp($services[$j]['name'], 'MarketplaceServiceItemDelivToCustomer') == 0) {
+                    $MarketplaceServiceItemDelivToCustomer = $services[$j]['price'];
+                    break;
+                }
+            }
+
+            for ($j = 0; $j < $services_length; $j++) {
+                if (strcmp($services[$j]['name'], 'MarketplaceServiceItemDirectFlowLogistic') == 0) {
+                    $MarketplaceServiceItemDirectFlowLogistic = $services[$j]['price'];
+                    break;
+                }
+            }
+
+            for ($j = 0; $j < $services_length; $j++) {
+                if (strcmp($services[$j]['name'], 'MarketplaceServiceItemReturnAfterDelivToCustomer') == 0) {
+                    $MarketplaceServiceItemReturnAfterDelivToCustomer = $services[$j]['price'];
+                    break;
+                }
+            }
+
+            for ($j = 0; $j < $services_length; $j++) {
+                if (strcmp($services[$j]['name'], 'MarketplaceServiceItemReturnFlowTrans') == 0) {
+                    $MarketplaceServiceItemReturnFlowTrans = $services[$j]['price'];
+                    break;
+                }
+            }
+
+            for ($j = 0; $j < $services_length; $j++) {
+                if (strcmp($services[$j]['name'], 'MarketplaceServiceItemReturnFlowLogistic') == 0) {
+                    $MarketplaceServiceItemReturnFlowLogistic = $services[$j]['price'];
+                    break;
+                }
+            }
+
+            for ($j = 0; $j < $services_length; $j++) {
+                if (strcmp($services[$j]['name'], 'MarketplaceServiceItemRedistributionReturnsPVZ') == 0) {
+                    $MarketplaceServiceItemRedistributionReturnsPVZ = $services[$j]['price'];
+                    break;
+                }
+            }
+
+            for ($j = 0; $j < $services_length; $j++) {
+                if (strcmp($services[$j]['name'], 'MarketplaceServiceItemReturnNotDelivToCustomer') == 0) {
+                    $MarketplaceServiceItemReturnNotDelivToCustomer = $services[$j]['price'];
+                    break;
+                }
+            }
+
+            for ($j = 0; $j < $services_length; $j++) {
+                if (strcmp($services[$j]['name'], 'MarketplaceServiceItemReturnPartGoodsCustomer') == 0) {
+                    $MarketplaceServiceItemReturnPartGoodsCustomer = $services[$j]['price'];
+                    break;
+                }
+            }
+
+            $posting_number = $element['posting']['posting_number'];
+            $posting_number_arr3 = explode('-', $posting_number);
+            $posting_number_1 = count($posting_number_arr3) > 0 ? $posting_number_arr3[0] : '';
+            $posting_number_2 = count($posting_number_arr3) > 1 ? $posting_number_arr3[1] : '';
+            $posting_number_3 = count($posting_number_arr3) > 2 ? $posting_number_arr3[2] : '';
+
+            $result_array []= [
+                'operation_id' => $element['operation_id'],
+                'operation_type' => $element['operation_type'],
+                'operation_date' => $element['operation_date'],
+                'operation_type_name' => $element['operation_type_name'],
+                'delivery_charge' => $element['delivery_charge'],
+                'return_delivery_charge' => $element['return_delivery_charge'],
+                'accruals_for_sale' => $element['accruals_for_sale'],
+                'sale_commission' => $element['sale_commission'],
+                'amount' => $element['amount'],
+                'type' => $element['type'],
+                'posting' => json_encode($element['posting'], true),
+                '_posting__delivery_schema' => $element['posting']['delivery_schema'],
+                '_posting__order_date' => $element['posting']['order_date'],
+                '_posting__posting_number' => $element['posting']['posting_number'],
+                '_posting__posting_number_1' => $posting_number_1,
+                '_posting__posting_number_2' => $posting_number_2,
+                '_posting__posting_number_3' => $posting_number_3,
+                '_posting__warehouse_id' => $element['posting']['warehouse_id'],
+                'items' => json_encode($element['items'], true),
+                'services' => json_encode($element['services'], true),
+                '_MarketplaceRedistributionOfAcquiringOperation' => $MarketplaceRedistributionOfAcquiringOperation,
+                '_MarketplaceServiceItemDropoffPVZ' => $MarketplaceServiceItemDropoffPVZ,
+                '_MarketplaceServiceItemDirectFlowTrans' => $MarketplaceServiceItemDirectFlowTrans,
+                '_MarketplaceServiceItemDelivToCustomer' => $MarketplaceServiceItemDelivToCustomer,
+                '_MarketplaceServiceItemDirectFlowLogistic' => $MarketplaceServiceItemDirectFlowLogistic,
+                '_MarketplaceServiceItemReturnAfterDelivToCustomer' => $MarketplaceServiceItemReturnAfterDelivToCustomer,
+                '_MarketplaceServiceItemReturnFlowTrans' => $MarketplaceServiceItemReturnFlowTrans,
+                '_MarketplaceServiceItemReturnFlowLogistic' => $MarketplaceServiceItemReturnFlowLogistic,
+                '_MarketplaceServiceItemRedistributionReturnsPVZ' => $MarketplaceServiceItemRedistributionReturnsPVZ,
+                '_MarketplaceServiceItemReturnNotDelivToCustomer' => $MarketplaceServiceItemReturnNotDelivToCustomer,
+                '_MarketplaceServiceItemReturnPartGoodsCustomer' => $MarketplaceServiceItemReturnPartGoodsCustomer,
+                '_raw_json' => json_encode($element['services'], true),
+            ];
+        }
+
+        return $result_array;
     }
 }

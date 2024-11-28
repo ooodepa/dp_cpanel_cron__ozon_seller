@@ -11,7 +11,7 @@ class OzonSellerSqlite__FinanceTransactionList
 
     public function fetch__getArray()
     {
-        return (new OzonSeller__FinanceTransactionList())->getAll();
+        return (new OzonSeller__FinanceTransactionList())->getAllTransformed();
     }
 
     function saveToDatabase()
@@ -42,15 +42,27 @@ class OzonSellerSqlite__FinanceTransactionList
                         sale_commission REAL,
                         amount REAL,
                         type TEXT,
-                        posting__delivery_schema TEXT,
-                        posting__order_date REAL,
-                        posting__posting_number TEXT,
-                        _posting__user_id TEXT,
-                        _posting__order_number TEXT,
-                        _posting__order_number_on_day TEXT,
-                        posting__warehouse_id REAL,
+                        posting TEXT,
+                        _posting__delivery_schema TEXT,
+                        _posting__order_date REAL,
+                        _posting__posting_number TEXT,
+                        _posting__posting_number_1 TEXT,
+                        _posting__posting_number_2 TEXT,
+                        _posting__posting_number_3 TEXT,
+                        _posting__warehouse_id REAL,
                         items TEXT,
                         services TEXT,
+                        _MarketplaceRedistributionOfAcquiringOperation REAL,
+                        _MarketplaceServiceItemDropoffPVZ REAL,
+                        _MarketplaceServiceItemDirectFlowTrans REAL,
+                        _MarketplaceServiceItemDelivToCustomer REAL,
+                        _MarketplaceServiceItemDirectFlowLogistic REAL,
+                        _MarketplaceServiceItemReturnAfterDelivToCustomer REAL, 
+                        _MarketplaceServiceItemReturnFlowTrans REAL,
+                        _MarketplaceServiceItemReturnFlowLogistic REAL,
+                        _MarketplaceServiceItemRedistributionReturnsPVZ REAL,
+                        _MarketplaceServiceItemReturnNotDelivToCustomer REAL,
+                        _MarketplaceServiceItemReturnPartGoodsCustomer REAL,
                         _raw_json TEXT,
                         _updated_at TIMESTAMP
                     )
@@ -75,15 +87,27 @@ class OzonSellerSqlite__FinanceTransactionList
                         sale_commission,
                         amount,
                         type,
-                        posting__delivery_schema,
-                        posting__order_date,
-                        posting__posting_number,
-                        _posting__user_id,
-                        _posting__order_number,
-                        _posting__order_number_on_day,
-                        posting__warehouse_id,
+                        posting,
+                        _posting__delivery_schema,
+                        _posting__order_date,
+                        _posting__posting_number,
+                        _posting__posting_number_1,
+                        _posting__posting_number_2,
+                        _posting__posting_number_3,
+                        _posting__warehouse_id,
                         items,
                         services,
+                        _MarketplaceRedistributionOfAcquiringOperation,
+                        _MarketplaceServiceItemDropoffPVZ,
+                        _MarketplaceServiceItemDirectFlowTrans,
+                        _MarketplaceServiceItemDelivToCustomer,
+                        _MarketplaceServiceItemDirectFlowLogistic,
+                        _MarketplaceServiceItemReturnAfterDelivToCustomer, 
+                        _MarketplaceServiceItemReturnFlowTrans,
+                        _MarketplaceServiceItemReturnFlowLogistic,
+                        _MarketplaceServiceItemRedistributionReturnsPVZ,
+                        _MarketplaceServiceItemReturnNotDelivToCustomer,
+                        _MarketplaceServiceItemReturnPartGoodsCustomer,
                         _raw_json,
                         _updated_at
                     )
@@ -106,26 +130,32 @@ class OzonSellerSqlite__FinanceTransactionList
                 $array_values[] = $element['sale_commission'];
                 $array_values[] = $element['amount'];
                 $array_values[] = $element['type'];
-                $array_values[] = $element['posting']['delivery_schema'];
-                $array_values[] = $element['posting']['order_date'];
-                $array_values[] = $element['posting']['posting_number'];
-                ;
-
-                $posting_number = $element['posting']['posting_number'];
-                $posting_number_arr3 = explode('-', $posting_number);
-
-                $array_values[] = count($posting_number_arr3) > 0 ? $posting_number_arr3[0] : '';
-                $array_values[] = count($posting_number_arr3) > 1 ? $posting_number_arr3[1] : '';
-                $array_values[] = count($posting_number_arr3) > 2 ? $posting_number_arr3[2] : '';
-
-                $array_values[] = $element['posting']['warehouse_id'];
-                $array_values[] = json_encode($element['items']);
-                $array_values[] = json_encode($element['services']);
-                $array_values[] = json_encode($element, true);
+                $array_values[] = $element['posting'];
+                $array_values[] = $element['_posting__delivery_schema'];
+                $array_values[] = $element['_posting__order_date'];
+                $array_values[] = $element['_posting__posting_number'];
+                $array_values[] = $element['_posting__posting_number_1'];
+                $array_values[] = $element['_posting__posting_number_2'];
+                $array_values[] = $element['_posting__posting_number_3'];
+                $array_values[] = $element['_posting__warehouse_id'];
+                $array_values[] = $element['items'];
+                $array_values[] = $element['services'];
+                $array_values[] = $element['_MarketplaceRedistributionOfAcquiringOperation'];
+                $array_values[] = $element['_MarketplaceServiceItemDropoffPVZ'];
+                $array_values[] = $element['_MarketplaceServiceItemDirectFlowTrans'];
+                $array_values[] = $element['_MarketplaceServiceItemDelivToCustomer'];
+                $array_values[] = $element['_MarketplaceServiceItemDirectFlowLogistic'];
+                $array_values[] = $element['_MarketplaceServiceItemReturnAfterDelivToCustomer'];
+                $array_values[] = $element['_MarketplaceServiceItemReturnFlowTrans'];
+                $array_values[] = $element['_MarketplaceServiceItemReturnFlowLogistic'];
+                $array_values[] = $element['_MarketplaceServiceItemRedistributionReturnsPVZ'];
+                $array_values[] = $element['_MarketplaceServiceItemReturnNotDelivToCustomer'];
+                $array_values[] = $element['_MarketplaceServiceItemReturnPartGoodsCustomer'];
+                $array_values[] = $element['_raw_json'];
 
                 $count += 1;
 
-                $array_rows[] = "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
+                $array_rows[] = "(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NOW())";
             }
 
             $sql .= implode(",\n", $array_rows);
