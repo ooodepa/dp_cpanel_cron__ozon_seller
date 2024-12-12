@@ -1,4 +1,8 @@
 <?php
+
+$HOME = strlen($_SERVER['DOCUMENT_ROOT']) != 0 ? $_SERVER['DOCUMENT_ROOT'] : $_SERVER['ENV_CRON_CPANEL_OZON_SELLER__HOME'];
+
+include_once "$HOME/_classes/LoggerToFile.class.php";
 include_once "$HOME/_classes/DatabaseConnect.class.php";
 include_once "$HOME/_classes/LoggerInTelegram.class.php";
 include_once "$HOME/_classes/OzonSeller__ProductInfo.class.php";
@@ -14,14 +18,18 @@ class OzonSellerSqlite__ProductInfo {
 
     function saveToDatabase() {
         try {
+            $tableName = "OZON_CTL_ProductInfo";
+            $products = $this->getAllProducts();
+
+            $YYYY_MM_DD = date('Y-m-d');
+            $log_filename = "_logs/$YYYY_MM_DD"."_$tableName.json";
+            $log_text = json_encode($products, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+            LoggerToFile::oneLog($log_filename, $log_text);
+
             $pdo = $this->getConnect();
             $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
             echo "<p style='color: green;'>Успешное подключение к SQLite</p>";
-
-            $products = $this->getAllProducts();
-
-            $tableName = "OZON_CTL_ProductInfo";
 
             $sql = "DROP TABLE IF EXISTS $tableName";
             $pdo->prepare($sql)->execute();
