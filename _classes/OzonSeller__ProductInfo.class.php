@@ -1,4 +1,7 @@
 <?php
+
+$HOME = strlen($_SERVER['DOCUMENT_ROOT']) != 0 ? $_SERVER['DOCUMENT_ROOT'] : $_SERVER['ENV_CRON_CPANEL_OZON_SELLER__HOME'];
+
 include_once "$HOME/env.php";
 include_once "$HOME/_classes/LoggerInTelegram.class.php";
 include_once "$HOME/_classes/OzonSeller__ProductList.class.php";

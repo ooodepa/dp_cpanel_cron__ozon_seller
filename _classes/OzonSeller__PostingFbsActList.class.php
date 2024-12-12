@@ -1,4 +1,7 @@
 <?php
+
+$HOME = strlen($_SERVER['DOCUMENT_ROOT']) != 0 ? $_SERVER['DOCUMENT_ROOT'] : $_SERVER['ENV_CRON_CPANEL_OZON_SELLER__HOME'];
+
 include "$HOME/env.php";
 
 class OzonSeller__PostingFbsActList {
