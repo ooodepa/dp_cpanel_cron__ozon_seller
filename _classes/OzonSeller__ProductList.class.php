@@ -15,7 +15,7 @@ class OzonSeller__ProductList {
 
     public function fetchJson__getNotArchivedProducts() {
         return $this->fetchJson([
-            'limit' => 10000,
+            'limit' => 1000,
             'filter' => [
                 'visibility' => 'ALL',
             ],
@@ -24,7 +24,7 @@ class OzonSeller__ProductList {
 
     public function fetchJson__getArchivedProducts() {
         return $this->fetchJson([
-            'limit' => 10000,
+            'limit' => 1000,
             'filter' => [
                 'visibility' => 'ARCHIVED',
             ],
@@ -33,7 +33,9 @@ class OzonSeller__ProductList {
 
     public function fetchJson($HTTP_DATA) {
         global $env;
-        $URI = "/v2/product/list";
+
+        // https://docs.ozon.ru/api/seller/#operation/ProductAPI_GetProductList
+        $URI = "/v3/product/list";
         $FETCH_URL = "https://api-seller.ozon.ru$URI";
         LoggerInTelegram::log($FETCH_URL);
 

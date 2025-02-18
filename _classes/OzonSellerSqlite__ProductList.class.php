@@ -41,10 +41,11 @@ class OzonSellerSqlite__ProductList {
             $sql = "CREATE TABLE $tableName (
                         product_id INT,
                         offer_id TEXT,
-                        is_fbo_visible INT,
-                        is_fbs_visible INT,
+                        has_fbo_stocks INT,
+                        has_fbs_stocks INT,
                         archived INT,
                         is_discounted INT,
+                        quants TEXT,
                         _raw_json TEXT,
                         _updated_at TIMESTAMP
                     )
@@ -57,7 +58,7 @@ class OzonSellerSqlite__ProductList {
 
             $sql = "INSERT INTO
                     $tableName
-                    (product_id, offer_id, is_fbo_visible, is_fbs_visible, archived, is_discounted, _raw_json, _updated_at)
+                    (product_id, offer_id, has_fbo_stocks, has_fbs_stocks, archived, quants, is_discounted, _raw_json, _updated_at)
                     VALUES
                     ";
             LoggerInTelegram::logCode($sql);
@@ -67,10 +68,11 @@ class OzonSellerSqlite__ProductList {
             foreach($products as $element) {
                 $array_values []= $element['product_id'];
                 $array_values []= $element['offer_id'];
-                $array_values []= $element['is_fbo_visible'] ? 1 : 0;
-                $array_values []= $element['is_fbs_visible'] ? 1 : 0;
+                $array_values []= $element['has_fbo_stocks'] ? 1 : 0;
+                $array_values []= $element['has_fbs_stocks'] ? 1 : 0;
                 $array_values []= $element['archived'] ? 1 : 0;
                 $array_values []= $element['is_discounted'] ? 1 : 0;
+                $array_values []= json_encode($element['quants']);
                 $array_values []= json_encode($element);
                 $array_rows []= "(?, ?, ?, ?, ?, ?, ?, NOW())";
             }
